@@ -111,6 +111,23 @@ misclassificationRate = error / sizeTestSet
 # display misclassification rate
 print(misclassificationRate)
 ```
+```{r}
+miscRate<-100
+optimizedK <- 1
+bestLabels<-predictedLabels
+for (i in 1:250){
+  predictedLabels = knn(trainingFeatures, testingFeatures, trainingLabels, k = i)
+  error = sum(predictedLabels != testingSet$shot_made_flag)
+  misclassificationRate = error / sizeTestSet
+  if(misclassificationRate<miscRate){
+    optimziedK <- i 
+    bestLabels<-predictedLabels
+    miscRate<-misclassificationRate
+  }
+  misclassificationRate
+}
+optimizedK
+```
 
 ```{r}
 cm = table(testingSet$shot_made_flag, predictedLabels)
