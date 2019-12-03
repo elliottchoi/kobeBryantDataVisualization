@@ -102,6 +102,11 @@ p1 <- vip(cv_mars, num_features = 40, bar = FALSE, value = "gcv") + ggtitle("GCV
 p2 <- vip(cv_mars, num_features = 40, bar = FALSE, value = "rss") + ggtitle("RSS")
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
+Checking Misc Rate 
+```{r}
+predictedLabels <- predict(cv_mars, test.data)
+# get num of data points in test set
+```
 
 confusion matrix
 ```{r}
@@ -112,10 +117,7 @@ fourfoldplot(ctable, color = c("#CC6666", "#99CC99"),
              conf.level = 0, margin = 1, main = "Confusion Matrix of Shots Made using Logistic Splines")
 ```
 
-Checking Misc Rate 
 ```{r}
-predictedLabels <- predict(cv_mars, test.data)
-# get num of data points in test set
 sizeTestSet = dim(test.data)[1]
 
 # get # of data points that are misclassified
