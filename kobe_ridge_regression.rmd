@@ -80,7 +80,7 @@ opt_lambda
 ```{r}
 x.test <- model.matrix(shot_made_flag ~., test.data)[,-1]
 probabilities <- model %>% predict(newx = x.test)
-predicted.classes <- ifelse(probabilities > mean(probabilities), 1, 0)
+predicted.classes <- ifelse(probabilities > 0.5, 1, 0)
 # get num of data points in test set
 sizeTestSet = dim(test.data)[1]
 
@@ -92,6 +92,8 @@ misclassificationRate = error / sizeTestSet
 
 # display misclassification rate
 print(misclassificationRate)
+print(sizeTestSet)
+
 ```
 
 ```{r}
@@ -99,5 +101,13 @@ op <- par(mfrow=c(1, 2))
 plot(cv.ridge $glmnet.fit, "norm",   label=TRUE)
 plot(cv.ridge$glmnet.fit, "lambda", label=TRUE)
 par(op)
+```
+
+```{r}
+cm = table(test.data$shot_made_flag, predicted.classes)
+
+ctable <- as.table(cm, nrow = 2, byrow = TRUE)
+fourfoldplot(ctable, color = c("#CC6666", "#99CC99"),
+             conf.level = 0, margin = 1, main = "Confusion Matrix of Shots Made using Lasso Regression")
 ```
 
